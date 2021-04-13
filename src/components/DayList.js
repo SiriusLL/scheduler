@@ -4,9 +4,9 @@ import DayListItem from "components/DayListItem";
 //import "components/DayListItem.scss";
 
 export default function DayList(props) {
-  console.log("props:", props.days);
+  console.log('props:', props.days)
   const day = props.days.map((day) => {
-    console.log("day", day);
+    console.log('day', day)
     return (
       <DayListItem
         key={day.id}
@@ -15,8 +15,8 @@ export default function DayList(props) {
         selected={day.name === props.day}
         setDay={props.setDay}
       />
-    );
-  });
-  console.log("return", day);
-  return <ul>{day}</ul>;
+    )
+  })
+  console.log('return', day);
+  return (<ul>{day}</ul>);
 }
