@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Button from "../Button";
 import InterviewerList from "../InterviewerList";
 
@@ -8,21 +8,21 @@ const Form = (props) => {
 
   const onChange = function (event) {
     setName(event.target.value);
-  }
+  };
   const reset = () => {
     setName("");
     setInterviewer(null);
-  }
+  };
 
   const cancel = () => {
     reset();
-    props.onCancel()
-  }
+    props.onCancel();
+  };
 
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
-        <form autoComplete="off" onSubmit={event => event.preventDefault()}>
+        <form autoComplete="off" onSubmit={(event) => event.preventDefault()}>
           <input
             className="appointment__create-input text--semi-bold"
             name={"Jonny Walker"}
@@ -30,7 +30,7 @@ const Form = (props) => {
             placeholder="Enter Student Name"
             value={name}
             onChange={onChange}
-      
+
             /*
           This must be a controlled component
         */
@@ -44,8 +44,12 @@ const Form = (props) => {
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <Button danger onClick={cancel}>Cancel</Button>
-          <Button confirm onClick={() => props.onSave(name, interviewer)}>Save</Button>
+          <Button danger onClick={cancel}>
+            Cancel
+          </Button>
+          <Button confirm onClick={() => props.onSave(name, interviewer)}>
+            Save
+          </Button>
         </section>
       </section>
     </main>
