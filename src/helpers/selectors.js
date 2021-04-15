@@ -22,14 +22,24 @@ export function getAppointmentsForDay(state, day) {
 }
 
 export function getInterview(state, interview) {
-  console.log(interview, '--------uiio')
+  
+  // const foundDay = state.days.find(eachDay => eachDay.name === day);
+
+  // if (!foundDay) {
+  //   return [];
+  // }
+
+  // const interviews = foundDay.interviewers.map(interviewerId => state.interviewers[interviewerId]);
+
+  // return interviews;
+  //console.log(interview, '--------uiio')
 
   if (!interview) {
     return null;
   } else {
-    console.log(state, 'the pirate state booty');
-    console.log(state.interviewers, 'interviewers')
-    console.log(state.interviewers[interview.interviewer])
+    // console.log(state, 'the pirate state booty');
+    // console.log(state.interviewers, 'interviewers')
+    // console.log(state.interviewers[interview.interviewer])
 
     let intData = state.interviewers[interview.interviewer]
 
