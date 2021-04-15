@@ -1,5 +1,5 @@
 
-export default function getAppointmentsForDay(state, day) {
+export function getAppointmentsForDay(state, day) {
 
   if (state.days.length === 0) {
     return [];
@@ -21,3 +21,28 @@ export default function getAppointmentsForDay(state, day) {
   
 }
 
+export function getInterview(state, interview) {
+  console.log(interview, '--------uiio')
+
+  if (!interview) {
+    return null;
+  } else {
+    console.log(state, 'the pirate state booty');
+    console.log(state.interviewers, 'interviewers')
+    console.log(state.interviewers[interview.interviewer])
+
+    let intData = state.interviewers[interview.interviewer]
+
+    return {
+      student: interview.student,
+      interviewer: {
+        id: interview.interviewer,
+        name: intData.name,
+        avatar: intData.avatar
+      }
+    }
+  }
+  
+}
+
+// exports.module = {getAppointmentsForDay, getInterview}
