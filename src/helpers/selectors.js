@@ -1,6 +1,5 @@
-import state from "./selectors.test"
 
-export function getAppointmentsForDay(state, day) {
+export default function getAppointmentsForDay(state, day) {
 
   if (state.days.length === 0) {
     return [];
@@ -19,5 +18,6 @@ export function getAppointmentsForDay(state, day) {
   })
 
   return newArr;
+  
 }
 
