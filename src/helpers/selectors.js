@@ -12,9 +12,9 @@ export function getAppointmentsForDay(state, day) {
     return [];
   }
     
-  const newArr = found.appointments.map(app => {
-    if(state.appointments[app]) {
-      return {...state.appointments[app]}
+  const newArr = found.appointments.map(appId => {
+    if(state.appointments[appId]) {
+      return {...state.appointments[appId]}
     }
   })
 
