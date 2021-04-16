@@ -55,4 +55,25 @@ export function getInterview(state, interview) {
   
 }
 
+export function getInterviewersForDay(state, day) {
+  // if (state.days.length === 0) {
+  //   return [];
+  // }
+
+  const found = state.days.find(eachDay => eachDay.name === day);
+  console.log(found, '=========');
+
+  if (!found) {
+    return [];
+  }
+    
+  const newArr = found.interviewers.map(intId => {
+    if(state.interviewers[intId]) {
+      return {...state.interviewers[intId]}
+    }
+  })
+  console.log(newArr, '---------->HERE');
+  return newArr;
+}
+
 // exports.module = {getAppointmentsForDay, getInterview}
