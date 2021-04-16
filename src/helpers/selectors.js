@@ -34,22 +34,28 @@ export function getInterview(state, interview) {
   // return interviews;
   //console.log(interview, '--------uiio')
 
-  if (!interview) {
+  if (interview === null) {
     return null;
   } else {
     // console.log(state, 'the pirate state booty');
-    // console.log(state.interviewers, 'interviewers')
+    // console.log('interviewers', state.interviewers)
+    // console.log("interview.interviewer", interview.interviewer)
+    // console.log('interview', interview);
     // console.log(state.interviewers[interview.interviewer])
 
     let intData = state.interviewers[interview.interviewer]
-
-    return {
-      student: interview.student,
-      interviewer: {
-        id: interview.interviewer,
-        name: intData.name,
-        avatar: intData.avatar
+    // console.log('intData',intData)
+    if (interview.interviewer) {
+      return {
+        student: interview.student,
+        interviewer: {
+          id: interview.interviewer,
+          name: intData.name,
+          avatar: intData.avatar
+        }
       }
+    } else {
+      return null;
     }
   }
   
@@ -61,7 +67,7 @@ export function getInterviewersForDay(state, day) {
   // }
 
   const found = state.days.find(eachDay => eachDay.name === day);
-  console.log(found, '=========');
+  // console.log(found, '=========');
 
   if (!found) {
     return [];
@@ -72,7 +78,7 @@ export function getInterviewersForDay(state, day) {
       return {...state.interviewers[intId]}
     }
   })
-  console.log(newArr, '---------->HERE');
+  // console.log(newArr, '---------->HERE');
   return newArr;
 }
 
