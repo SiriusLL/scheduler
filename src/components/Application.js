@@ -6,95 +6,6 @@ import Appointment from "./Appointment";
 import {getAppointmentsForDay, getInterview, getInterviewersForDay} from "../helpers/selectors";
 
 
-// const appointments = [
-//   {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       },
-//     },
-//   },
-//   {
-//     id: 7,
-//     time: '9am'
-//   },
-//   // {
-//   //   id: 3,
-//   //   time: "2pm",
-//   //   interview: {
-//   //     student: "James Bee",
-//   //     interviewer: {
-//   //       id: 2,
-//   //       name: "Andy Allstar",
-//   //       avatar: "https://i.imgur.com/Nmx0Qxo.png",
-//   //     },
-//   //   },
-//   // },
-//   {
-//     id: 4,
-//     time: "3pm",
-//     interview: {
-//       student: "Lilo Stitch",
-//       interviewer: {
-//         id: 3,
-//         name: "Cpt. Hook",
-//         avatar: "https://i.imgur.com/T2WwVfS.png",
-//       },
-//     },
-//   },
-//   {
-//     id:5,
-//     time:'12pm',
-//     interview: {
-//       student: "Lilo Stitch",
-//       interviewer: {
-//         id: 3,
-//         name: "Cpt. Hook",
-//         avatar: "https://i.imgur.com/T2WwVfS.png",
-//       },
-//     },
-//   },
-//   {
-//     id: 6,
-//     time: "1pm",
-//     interview: {
-//       student: "Lumen Love",
-//       interviewer: {
-//         id: 4,
-//         name: "John Luke",
-//         avatar: "https://i.imgur.com/FK8V841.jpg",
-//       },
-//     },
-//   },
-// ];
-
-// // const days = [
-// //   {
-// //     id: 1,
-// //     name: "Monday",
-// //     spots: 2,
-// //   },
-// //   {
-// //     id: 2,
-// //     name: "Tuesday",
-// //     spots: 5,
-// //   },
-// //   {
-// //     id: 3,
-// //     name: "Wednesday",
-// //     spots: 0,
-// //   },
-// // ];
-
 export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
@@ -128,7 +39,40 @@ export default function Application(props) {
     // }, [])
 
   }, [])
-  console.log('*******', state.interviewers)
+  
+  function bookInterview(id, interview) {
+    console.log(id, interview, 'Pirate--Treasure');
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    return axios.put(`/api/appointments/${id}`, appointment)
+    .then(() => setState({ ...state, appointments}))
+    .catch(error => console.error(error));
+  }
+
+  function cancelInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    }
+
+    return axios.delete(`/api/appointments/${id}`, appointment)
+    .then(() => setState({ ...state, appointments}))
+    .catch(error => console.error(error));
+  }
+  
   const appointmentList = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     console.log(appointment)
@@ -140,10 +84,13 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
     
   });
+
 
   return (
     <main className="layout">

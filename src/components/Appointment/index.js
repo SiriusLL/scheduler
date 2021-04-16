@@ -4,11 +4,14 @@ import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import Form from "./Form";
-import useVisualMode from "../../hooks/useVisualMode";
+import useVisualMode from "hooks/useVisualMode";
+import Status from "./Status";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
+const SAVING = "SAVING";
+const DELETING = "DELETING"
 
 
 
@@ -16,7 +19,24 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-  console.log(props, 'interviewrs----')
+
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer
+    };
+    transition(SAVING);
+    props.bookInterview(props.id, interview).then(() => transition(SHOW));
+  };
+
+  function deleteInterview() {
+    transition(DELETING);
+    props.cancelInterview(props.id)
+    .then(() => transition(SHOW));
+  }
+
+  console.log(props, 'props.interview.student')
+
   return (
     <article className="appointment">
       <Header time={props.time} />
@@ -24,13 +44,25 @@ export default function Appointment(props) {
       {mode === SHOW && (
         <Show
           student={props.interview.student} 
-          interviewer={props.interview.interviewer} 
+          interviewer={props.interview.interviewer}
+          onDelete={deleteInterview}
         />
       )}
       {mode === CREATE && (
         <Form
-          onCancel={() => back(EMPTY)}
+          onCancel={() => back}
+          onSave={save}
           interviewers={props.interviewers}
+        />
+      )}
+      {mode === SAVING && (
+        <Status
+          message={"Saving your request"}
+        />
+      )}
+      {mode === DELETING && (
+        <Status
+          message={"Deleting"}
         />
       )}
     </article>
