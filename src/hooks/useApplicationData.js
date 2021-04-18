@@ -5,12 +5,17 @@ export default function useApplicationData() {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
+    spots: '',
     // you may put the line below, but will have to remove/comment hardcoded appointments variable
     appointments: {},
     interviewers: {}
   });
 
-  const setDay = (day) => setState(priorState => ({ ...priorState, day: day }));
+  const setDay = (day) => {
+    console.log('Start', state.days)
+    setState(priorState => ({ ...priorState, day: day }))
+    console.log('End', state.days)
+  };
 
   useEffect(() => {
     const daysPromise = axios.get(`http://localhost:8001/api/days`);
@@ -26,6 +31,23 @@ export default function useApplicationData() {
 
   }, [])
 
+  function updateSpots(id, increment) {
+        
+        const days = [ ...state.days ];
+        
+        const found = days.find(day => day.appointments.includes(id));
+        if (increment === 'sub') {
+          found.spots -= 1;
+          return found;
+        }
+
+        found.spots += 1
+        
+        return days
+        
+       
+  }
+
   function bookInterview(id, interview) {
     
     const appointment = {
@@ -37,9 +59,10 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
-
+    updateSpots(id, 'sub')
+    
     return axios.put(`/api/appointments/${id}`, appointment)
-    .then(() => setState({ ...state, appointments}))
+    .then(() => setState(prev => ({ ...state, appointments})))
     // .catch(error => console.error(error));
   }
 
@@ -54,9 +77,12 @@ export default function useApplicationData() {
       [id]: appointment
     }
 
+    const count = updateSpots(id)
+
     return axios.delete(`/api/appointments/${id}`, appointment)
-    .then(() => setState({ ...state, appointments}))
+    .then(() => setState({ ...state, appointments, count}))
     // .catch(error => console.error(error));
   }
-  return { bookInterview, cancelInterview,setDay, state }
+  return { bookInterview, cancelInterview,
+    setDay, state }
 }
