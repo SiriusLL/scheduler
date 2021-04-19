@@ -31,21 +31,28 @@ export default function useApplicationData() {
 
   }, [])
 
-  function updateSpots(id, increment) {
-        
-        const days = [ ...state.days ];
-        
-        const found = days.find(day => day.appointments.includes(id));
-        if (increment === 'sub') {
-          found.spots -= 1;
-          return found;
-        }
-
-        found.spots += 1
-        
-        return days
-        
+  //return number of spots for a day
+  function updateSpots(day) {
+      
+    console.log('state',state)
+        console.log('day', day)
+        if (state.appointments) {
+        const dayFound = state.days.find(eachDay => eachDay.name === day);
+        console.log('dayFound', dayFound)
+        const emptyAppointments = dayFound.appointments.filter((appointmentId, id) => state.appointments[appointmentId].interview === null)
+        console.log('dayFound.appointments', dayFound.appointments)
+        console.log('emptyApp', emptyAppointments)
        
+        //return emptyAppointments.length;
+        const daysSpots = [ ...state.days ];
+
+       //found.spots = emptyAppointments.length
+       console.log('daySpots',daysSpots)
+       dayFound.spots = emptyAppointments.length
+        
+       return daysSpots
+        
+      }
   }
 
   function bookInterview(id, interview) {
@@ -59,28 +66,29 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
-    updateSpots(id, 'sub')
+    //updateSpots(id, 'sub')
+    const dayCount = updateSpots(state.day, id)
     
     return axios.put(`/api/appointments/${id}`, appointment)
-    .then(() => setState(prev => ({ ...state, appointments})))
+    .then(() => setState(prev => ({ ...state, appointments, days: dayCount})))
     // .catch(error => console.error(error));
   }
-
+  
   function cancelInterview(id) {
     const appointment = {
       ...state.appointments[id],
       interview: null
     };
-
+    
     const appointments = {
       ...state.appointments,
       [id]: appointment
     }
-
-    const count = updateSpots(id)
-
+    console.log('here',state.day)
+    //const count = updateSpots(id)
+    const dayCount = updateSpots(state.day, id)
     return axios.delete(`/api/appointments/${id}`, appointment)
-    .then(() => setState({ ...state, appointments, count}))
+    .then(() => setState({ ...state, appointments, dayCount}))
     // .catch(error => console.error(error));
   }
   return { bookInterview, cancelInterview,
