@@ -31,28 +31,32 @@ export default function useApplicationData() {
 
   }, [])
 
-  //return number of spots for a day
-  function updateSpots(day) {
-      
-    console.log('state',state)
-        console.log('day', day)
-        if (state.appointments) {
-        const dayFound = state.days.find(eachDay => eachDay.name === day);
-        console.log('dayFound', dayFound)
-        const emptyAppointments = dayFound.appointments.filter((appointmentId, id) => state.appointments[appointmentId].interview === null)
-        console.log('dayFound.appointments', dayFound.appointments)
-        console.log('emptyApp', emptyAppointments)
-       
-        //return emptyAppointments.length;
-        const daysSpots = [ ...state.days ];
-
-       //found.spots = emptyAppointments.length
-       console.log('daySpots',daysSpots)
-       dayFound.spots = emptyAppointments.length
-        
-       return daysSpots
-        
+  const getSpotsForDay = function (dayObj, appointments) {
+    
+    let spots = 0;
+    for (const id of dayObj.appointments) {
+      const appointment = appointments[id];
+      console.log('appointment.interview', appointment.interview)
+      if (!appointment.interview) {
+        spots++;
       }
+    }
+    console.log('spots', spots)
+    console.log('dayObj', dayObj)
+    return spots;
+  }
+  
+  //return number of spots for a day
+  function updateSpots(dayName, days, appointments) {
+     
+    //find the day Object
+    const dayObj = days.find(day => day.name === dayName);
+
+    //calculate spot for this day
+    const spots = getSpotsForDay(dayObj, appointments);
+    console.log('return', days.map(day => day.name === dayName ? { ...dayObj, spots} : day))
+    return days.map(day => day.name === dayName ? { ...day, spots} : day);
+    
   }
 
   function bookInterview(id, interview) {
@@ -67,10 +71,12 @@ export default function useApplicationData() {
       [id]: appointment
     };
     //updateSpots(id, 'sub')
-    const dayCount = updateSpots(state.day, id)
-    
+    console.log('days', state.days)
+    //const dayCount = updateSpots(state.day, state.days, appointments)
+    //console.log('dayCount', dayCount);
+
     return axios.put(`/api/appointments/${id}`, appointment)
-    .then(() => setState(prev => ({ ...state, appointments, days: dayCount})))
+    .then(() => setState({ ...state, appointments, days: updateSpots(state.day, state.days, appointments)}))
     // .catch(error => console.error(error));
   }
   
@@ -86,9 +92,9 @@ export default function useApplicationData() {
     }
     console.log('here',state.day)
     //const count = updateSpots(id)
-    const dayCount = updateSpots(state.day, id)
+    //const dayCount = updateSpots(state.day, state.days, appointments)
     return axios.delete(`/api/appointments/${id}`, appointment)
-    .then(() => setState({ ...state, appointments, dayCount}))
+    .then(() => setState({ ...state, appointments, days: updateSpots(state.day, state.days, appointments)}))
     // .catch(error => console.error(error));
   }
   return { bookInterview, cancelInterview,
