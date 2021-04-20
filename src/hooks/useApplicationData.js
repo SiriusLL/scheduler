@@ -70,10 +70,7 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
-    //updateSpots(id, 'sub')
-    console.log('days', state.days)
     //const dayCount = updateSpots(state.day, state.days, appointments)
-    //console.log('dayCount', dayCount);
 
     return axios.put(`/api/appointments/${id}`, appointment)
     .then(() => setState({ ...state, appointments, days: updateSpots(state.day, state.days, appointments)}))
@@ -90,8 +87,7 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     }
-    console.log('here',state.day)
-    //const count = updateSpots(id)
+    
     //const dayCount = updateSpots(state.day, state.days, appointments)
     return axios.delete(`/api/appointments/${id}`, appointment)
     .then(() => setState({ ...state, appointments, days: updateSpots(state.day, state.days, appointments)}))

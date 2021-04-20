@@ -34,7 +34,12 @@ export default function InterviewerList(props) {
         </ul>
       </section>
     );
-  //});
-  //console.log("return", interviewers);
-  //return <ul>{interviewer}</ul>;
-}
+
+    
+    //});
+    //console.log("return", interviewers);
+    //return <ul>{interviewer}</ul>;
+  }
+  InterviewerList.propTypes = {
+    interviewers: PropTypes.array.isRequired
+  };
