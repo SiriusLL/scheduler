@@ -2,7 +2,6 @@ import React from "react";
 import { render, cleanup, fireEvent } from "@testing-library/react";
 import Form from "components/Appointment/Form";
 
-
 afterEach(cleanup);
 
 describe("Form", () => {
@@ -10,8 +9,8 @@ describe("Form", () => {
     {
       id: 1,
       name: "Sylvia Palmer",
-      avatar: "https://i.imgur.com/LpaY82x.png"
-    }
+      avatar: "https://i.imgur.com/LpaY82x.png",
+    },
   ];
 
   it("renders without student name if not provided", () => {
@@ -26,14 +25,14 @@ describe("Form", () => {
     const { getByTestId } = render(
       <Form interviewers={interviewers} name="Lydia Miller-Jones" />
     );
-    
+
     expect(getByTestId("student-name-input")).toHaveValue("Lydia Miller-Jones");
   });
 
   it("validates that the student name is not blank", () => {
     /* 1. Create the mock onSave function */
     const onSave = jest.fn();
-    
+
     /* 2. Render the Form with interviewers and the onSave mock function passed as an onSave prop, the name prop should be blank or undefined */
     const { getByText } = render(
       <Form interviewers={interviewers} onSave={onSave} />
@@ -44,19 +43,19 @@ describe("Form", () => {
     expect(getByText(/student name can not be blank/i)).toBeInTheDocument();
     expect(onSave).not.toHaveBeenCalled();
   });
-  
+
   // xit("calls onSave function when the name is defined", () => {
   //   /* 1. Create the mock onSave function */
   //   const onSave = jest.fn();
   //   /* 2. Render the Form with interviewers, name and the onSave mock function passed as an onSave prop */
   //   const { getByText, queryByText } = render(
-  //     <Form 
+  //     <Form
   //       interviewers={interviewers}
   //       onSave={onSave}
   //       name="Lydia Miller-Jones"
   //     />
   //   );
-  
+
   //   /* 3. Click the save button */
   //   fireEvent.click(getByText("Save"));
 
@@ -66,18 +65,18 @@ describe("Form", () => {
   // });
 
   // it("submits the name entered by the user", () => {
-    
+
   //   const onSave = jest.fn();
-    
+
   //   const { getByText, getByPlaceholderText } = render(
   //     <Form interviewers={interviewers} onSave={onSave} />
   //   );
-  
+
   //   const input = getByPlaceholderText("Enter Student Name");
-  
+
   //   fireEvent.change(input, { target: { value: "Lydia Miller-Jones" } });
   //   fireEvent.click(getByText("Save"));
-  
+
   //   expect(onSave).toHaveBeenCalledTimes(1);
   //   expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", null);
   // });
@@ -87,20 +86,20 @@ describe("Form", () => {
     const { getByText, getByPlaceholderText, queryByText } = render(
       <Form interviewers={interviewers} onSave={onSave} />
     );
-  
+
     fireEvent.click(getByText("Save"));
-  
+
     expect(getByText(/Student name can not be blank/i)).toBeInTheDocument();
     expect(onSave).not.toHaveBeenCalled();
-  
+
     fireEvent.change(getByPlaceholderText("Enter Student Name"), {
-      target: { value: "Lydia Miller-Jones" }
+      target: { value: "Lydia Miller-Jones" },
     });
-  
+
     fireEvent.click(getByText("Save"));
-  
+
     expect(queryByText(/student name can not be blank/i)).toBeNull();
-  
+
     expect(onSave).toHaveBeenCalledTimes(1);
     expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", null);
   });
@@ -115,20 +114,19 @@ describe("Form", () => {
         onCancel={onCancel}
       />
     );
-  
+
     fireEvent.click(getByText("Save"));
-  
+
     fireEvent.change(getByPlaceholderText("Enter Student Name"), {
-      target: { value: "Lydia Miller-Jones" }
+      target: { value: "Lydia Miller-Jones" },
     });
-  
+
     fireEvent.click(getByText("Cancel"));
-  
+
     expect(queryByText(/student name can not be blank/i)).toBeNull();
-  
+
     expect(getByPlaceholderText("Enter Student Name")).toHaveValue("");
-  
+
     expect(onCancel).toHaveBeenCalledTimes(1);
   });
-  
 });

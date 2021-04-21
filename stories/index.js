@@ -118,78 +118,106 @@ storiesOf("InterviewerListItem", module)
     />
   ));
 
+const interviewers = [
+  { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
+  { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
+  { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
+  { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
+  { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" },
+];
 
-  const interviewers = [
-    { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
-    { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
-    { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
-    { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
-    { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
-  ];
-  
-  storiesOf("InterviewerList test", module)
-    .addParameters({
-      backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
-    })
-    .add("Initial", () => (
-      <InterviewerList
-        interviewers={interviewers}
-        setInterviewer={action("setInterviewer")}
-      />
-    ))
-    .add("Preselected", () => (
-      <InterviewerList
-        interviewers={interviewers}
-        interviewer={3}
-        setInterviewer={action("setInterviewer")}
-      />
-    ));
+storiesOf("InterviewerList test", module)
+  .addParameters({
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
+  })
+  .add("Initial", () => (
+    <InterviewerList
+      interviewers={interviewers}
+      setInterviewer={action("setInterviewer")}
+    />
+  ))
+  .add("Preselected", () => (
+    <InterviewerList
+      interviewers={interviewers}
+      interviewer={3}
+      setInterviewer={action("setInterviewer")}
+    />
+  ));
 
-    storiesOf("InterviewerList test****", module)
-    .addParameters({
-      backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
-    })
-    .add("Initial", () => (
-      <InterviewerList
-        interviewers={interviewers}
-        setInterviewer={action("setInterviewer")}
-      />
-    ))
-    .add("Preselected", () => (
-      <InterviewerList
-        interviewers={interviewers}
-        interviewer={3}
-        setInterviewer={action("setInterviewer")}
-      />
-    ));
+storiesOf("InterviewerList test****", module)
+  .addParameters({
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
+  })
+  .add("Initial", () => (
+    <InterviewerList
+      interviewers={interviewers}
+      setInterviewer={action("setInterviewer")}
+    />
+  ))
+  .add("Preselected", () => (
+    <InterviewerList
+      interviewers={interviewers}
+      interviewer={3}
+      setInterviewer={action("setInterviewer")}
+    />
+  ));
 
-    storiesOf("Appointment", module)
-      .addParameters({
-        backgrounds: [{ name: "white", value: "#fff", default: true}]
-      })
-      .add("Appointment", () => <Appointment />)
-      .add("Appointment with time", () => <Appointment time="12pm"/>)
-      .add("Header" , () => <Header time="12pm" />)
-      .add("Empty", () => <Empty onAdd={action("onAdd")} />)
-      .add("Show", () => <Show student="Lydia Miller-Jones" interviewer={interviewers[0]} onEdit={action("onEdit")} onDelete={action("onDelete")} />)
-      .add("Confirm", () => <Confirm message="Delete the appointment?" onConfirm={action("onConfirm")} onCancel={action("onCancel")} />)
-      .add("Status", () => <Status message="Deleting" />)
-      .add("Error", () => <Error message="Could not delete appointment" onClose={action("onClose")} />)
-      .add("Create", () => <Form interviewers={interviewers} onSave={action("onSave")} onCancel={action("onCancel")} />)
-      .add("Edit", () => <Form name="Jonny Wilde" interviewers={interviewers} interviewer={interviewers.id} onSave={action("onSave")} onCancel={action("onCancel")} />)
-      .add("Appointment Empty", () => (
-        <Fragment>
-          <Appointment id={1} time="12pm" />
-          <Appointment id="last" time="1pm" />
-        </Fragment>
-      ))
-      .add("Appointment Booked", () => (
-        <Fragment>
-          <Appointment
-            id={1}
-            time="12pm"
-            interview={{ student: "Lydia Miller-Jones", interviewer }}
-          />
-          <Appointment id="last" time="1pm" />
-        </Fragment>
-      ))
+storiesOf("Appointment", module)
+  .addParameters({
+    backgrounds: [{ name: "white", value: "#fff", default: true }],
+  })
+  .add("Appointment", () => <Appointment />)
+  .add("Appointment with time", () => <Appointment time="12pm" />)
+  .add("Header", () => <Header time="12pm" />)
+  .add("Empty", () => <Empty onAdd={action("onAdd")} />)
+  .add("Show", () => (
+    <Show
+      student="Lydia Miller-Jones"
+      interviewer={interviewers[0]}
+      onEdit={action("onEdit")}
+      onDelete={action("onDelete")}
+    />
+  ))
+  .add("Confirm", () => (
+    <Confirm
+      message="Delete the appointment?"
+      onConfirm={action("onConfirm")}
+      onCancel={action("onCancel")}
+    />
+  ))
+  .add("Status", () => <Status message="Deleting" />)
+  .add("Error", () => (
+    <Error message="Could not delete appointment" onClose={action("onClose")} />
+  ))
+  .add("Create", () => (
+    <Form
+      interviewers={interviewers}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ))
+  .add("Edit", () => (
+    <Form
+      name="Jonny Wilde"
+      interviewers={interviewers}
+      interviewer={interviewers.id}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ))
+  .add("Appointment Empty", () => (
+    <Fragment>
+      <Appointment id={1} time="12pm" />
+      <Appointment id="last" time="1pm" />
+    </Fragment>
+  ))
+  .add("Appointment Booked", () => (
+    <Fragment>
+      <Appointment
+        id={1}
+        time="12pm"
+        interview={{ student: "Lydia Miller-Jones", interviewer }}
+      />
+      <Appointment id="last" time="1pm" />
+    </Fragment>
+  ));
