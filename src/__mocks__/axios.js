@@ -86,11 +86,17 @@ export default {
       });
     }
   }),
-    put: jest.fn(url => {
-      console.log("PUT", url);
-      return Promise.resolve({
-        status: 204,
-        statusText: "OK"
-      })
+  put: jest.fn(url => {
+    console.log("PUT", url);
+    return Promise.resolve({
+      status: 204,
+      statusText: "OK"
     })
+  }),
+  delete: jest.fn(url => {
+    return Promise.resolve({
+      status: 204,
+      statusText: "OK"
+    })
+  })
 }
