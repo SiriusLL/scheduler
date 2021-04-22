@@ -9,12 +9,7 @@ export function getAppointmentsForDay(state, day) {
     return [];
   }
 
-  // eslint-disable-next-line
-  const newArr = found.appointments.map((appId) => {
-    if (state.appointments[appId]) {
-      return { ...state.appointments[appId] };
-    }
-  });
+  const newArr = found.appointments.map((appId) => state.appointments[appId]);
 
   return newArr;
 }
@@ -47,11 +42,6 @@ export function getInterviewersForDay(state, day) {
     return [];
   }
 
-  // eslint-disable-next-line
-  const newArr = found.interviewers.map((intId) => {
-    if (state.interviewers[intId]) {
-      return { ...state.interviewers[intId] };
-    }
-  });
+  const newArr = found.interviewers.map((intId) => state.interviewers[intId]);
   return newArr;
 }
