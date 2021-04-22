@@ -6,15 +6,13 @@ export default function useApplicationData() {
     day: "Monday",
     days: [],
     spots: "",
-    // you may put the line below, but will have to remove/comment hardcoded appointments variable
+
     appointments: {},
     interviewers: {},
   });
 
   const setDay = (day) => {
-    console.log("Start", state.days);
     setState((priorState) => ({ ...priorState, day: day }));
-    console.log("End", state.days);
   };
 
   useEffect(() => {
@@ -37,13 +35,11 @@ export default function useApplicationData() {
     let spots = 0;
     for (const id of dayObj.appointments) {
       const appointment = appointments[id];
-      console.log("appointment.interview", appointment.interview);
+
       if (!appointment.interview) {
         spots++;
       }
     }
-    console.log("spots", spots);
-    console.log("dayObj", dayObj);
     return spots;
   };
 
@@ -54,10 +50,7 @@ export default function useApplicationData() {
 
     //calculate spot for this day
     const spots = getSpotsForDay(dayObj, appointments);
-    console.log(
-      "return",
-      days.map((day) => (day.name === dayName ? { ...dayObj, spots } : day))
-    );
+
     return days.map((day) => (day.name === dayName ? { ...day, spots } : day));
   }
 
@@ -71,18 +64,14 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
-    //const dayCount = updateSpots(state.day, state.days, appointments)
 
-    return axios
-      .put(`/api/appointments/${id}`, appointment)
-      .then(() =>
-        setState({
-          ...state,
-          appointments,
-          days: updateSpots(state.day, state.days, appointments),
-        })
-      );
-    // .catch(error => console.error(error));
+    return axios.put(`/api/appointments/${id}`, appointment).then(() =>
+      setState({
+        ...state,
+        appointments,
+        days: updateSpots(state.day, state.days, appointments),
+      })
+    );
   }
 
   function cancelInterview(id) {
@@ -96,17 +85,13 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
-    //const dayCount = updateSpots(state.day, state.days, appointments)
-    return axios
-      .delete(`/api/appointments/${id}`, appointment)
-      .then(() =>
-        setState({
-          ...state,
-          appointments,
-          days: updateSpots(state.day, state.days, appointments),
-        })
-      );
-    // .catch(error => console.error(error));
+    return axios.delete(`/api/appointments/${id}`, appointment).then(() =>
+      setState({
+        ...state,
+        appointments,
+        days: updateSpots(state.day, state.days, appointments),
+      })
+    );
   }
   return { bookInterview, cancelInterview, setDay, state };
 }

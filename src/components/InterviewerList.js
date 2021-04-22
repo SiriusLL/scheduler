@@ -7,9 +7,6 @@ export default function InterviewerList(props) {
   InterviewerList.propTypes = {
     interviewers: PropTypes.array.isRequired,
   };
-  // console.log("propsrrrrbooty:", props);
-  //const interviewer = props.interviewers.map((interviewer) => {
-  //console.log("day", interviewers);
 
   const interviewers = props.interviewers.map((interviewer) => {
     const setInterviewer = () => {
@@ -33,11 +30,8 @@ export default function InterviewerList(props) {
       <ul className="interviewers__list">{interviewers}</ul>
     </section>
   );
-
-  //});
-  //console.log("return", interviewers);
-  //return <ul>{interviewer}</ul>;
 }
+
 InterviewerList.propTypes = {
   interviewers: PropTypes.array.isRequired,
 };

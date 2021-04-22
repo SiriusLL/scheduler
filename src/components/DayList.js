@@ -1,7 +1,5 @@
 import React from "react";
 import DayListItem from "components/DayListItem";
-//import classnames from "classnames";
-//import "components/DayListItem.scss";
 
 export default function DayList(props) {
   const day = props.days.map((day) => {

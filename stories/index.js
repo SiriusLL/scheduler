@@ -1,10 +1,7 @@
 import React, { Fragment } from "react";
-
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-
 import "index.scss";
-
 import Button from "components/Button";
 import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
@@ -100,15 +97,6 @@ storiesOf("InterviewerListItem", module)
       selected
     />
   ))
-  // .add("Clickable", () => (
-  //   <InterviewerListItem
-  //     id={interviewer.id}
-  //     name={interviewer.name}
-  //     avatar={interviewer.avatar}
-  //     setInterviewer={action("setInterviewer")}
-  //   />
-  // ))
-
   .add("Clickable", () => (
     <InterviewerListItem
       id={interviewer.id}
